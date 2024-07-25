@@ -1,0 +1,48 @@
+name: wallet_app
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.3.1 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts: ^6.2.1
+  intl_phone_field: ^3.2.0
+  intl_phone_number_input: ^0.7.4
+  provider: ^6.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+   - assets\login.png
+   - assets\apple.png
+   - assets\Facebook.png
+   - assets\Google.png
+   - assets\createse.png
+   - assets\dolly.png
+   - assets\name2.png
+   - assets\name3.png
+   - assets\name4.png
+   - assets\name41.png
+   - assets\name1.png
+   - assets\Wallmart.png
+   - assets\Netflix.png
+   - assets\Topup.png
+   - assets\homedepot.png
+   - assets\nike.png
+   - assets\Amazon.png
+   - assets\wallmart(a).png
+   - assets\Verifiedphoto.png
+   - assets\transfer1.png
+   - assets\transfer2.png
+   - assets\transfer3.png
+   
+
