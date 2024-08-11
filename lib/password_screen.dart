@@ -6,6 +6,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_app/otp.dart';
 import 'package:wallet_app/otpprovider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class PasswordScreen extends StatefulWidget {
   const PasswordScreen({super.key});
@@ -15,6 +16,9 @@ class PasswordScreen extends StatefulWidget {
 }
 
 class _PasswordScreenState extends State<PasswordScreen> {
+    
+    FirebaseAuth auth = FirebaseAuth.instance;
+bool mobile = false;
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController phonecontroller = TextEditingController();
 
@@ -223,7 +227,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
   }
 
   void bottommodel() {
-    bool mobile = false;
+    
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -342,7 +346,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                             //     return const Otp1();
                             //   },
                             // ));
-                            verify(),
+                            verify();
                           },
                           child: Text(
                             "Send reset link",
@@ -383,7 +387,32 @@ class _PasswordScreenState extends State<PasswordScreen> {
     );
   }
   void verify(){
+       auth.verifyPhoneNumber(
+        phoneNumber:  '+91${phonecontroller.text}',
+        verificationCompleted:(PhoneAuthCredential credential){
 
-    
+        },
+         verificationFailed:  (FirebaseAuthException e) {
+           
+         },
+          codeSent: (String verificationID ,int? resendToken) { 
+ Provider.of<Otp>(context, listen: false).getinfo(
+                                emailcontroller.text,
+                                phonecontroller.text,
+                              mobile,
+                              verificationID,
+                                );
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) {
+                                return const Otp1();
+                              },
+                            ));
+
+          },
+           codeAutoRetrievalTimeout: ( String verificationId){
+
+           }
+           );
+
   }
 }

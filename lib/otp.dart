@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,9 @@ class _OtpState extends State<Otp1> {
   Timer? timer;
   int timersecond = 30;
   bool checkbox = false;
+  TextEditingController optCon = TextEditingController();
+
+  FirebaseAuth auth = FirebaseAuth.instance;
   @override
   void initState() {
     super.initState();
@@ -185,6 +189,7 @@ class _OtpState extends State<Otp1> {
             child: Container(
               width: 197,
               child: TextFormField(
+                controller: optCon,
                 onChanged: (value) {
                   if (value.length == 6) {
                     setState(() {
@@ -256,7 +261,7 @@ class _OtpState extends State<Otp1> {
                     borderRadius: BorderRadius.circular(10))),
                 minimumSize: const MaterialStatePropertyAll(Size(250, 45))),
             onPressed: () {
-              Navigator.of(context).pushNamed('/home');
+             verifyOtp();
             },
             child: Text(
               "Done",
@@ -267,5 +272,34 @@ class _OtpState extends State<Otp1> {
             )),
       ),
     ])));
+  }
+
+  void verifyOtp()async{
+
+    PhoneAuthCredential authCredential = PhoneAuthProvider.credential(verificationId: Provider.of<Otp>(context,listen: false).verificationID!,
+     smsCode:optCon.text
+        
+        
+      );
+      try{
+        await auth.signInWithCredential(authCredential);
+   Navigator.of(context).pushReplacementNamed('/home');
+      }catch(e){
+    showDialog(
+      
+      context: context, 
+      builder: (context) {
+         return AlertDialog(
+          title:const  Text("Invaild Otp"),
+          content: const Text("Enter a Valid Otp"),
+          actions: [
+             TextButton(onPressed: (){
+              Navigator.of(context).pop();
+             }, child:  const Text("Ok")
+             )
+          ],
+         );
+      },);
+      }
   }
 }
