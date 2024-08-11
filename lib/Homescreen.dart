@@ -154,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                               const SizedBox(
-                                width: 30,
+                                width: 20,
                               ),
                               Container(
                                 height: 24,
@@ -165,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         width: 1)),
                               ),
                               const SizedBox(
-                                width: 30,
+                                width: 20,
                               ),
                               Column(
                                 children: [
@@ -187,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                               const SizedBox(
-                                width: 30,
+                                width: 20,
                               ),
                               Container(
                                 height: 24,

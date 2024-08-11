@@ -194,7 +194,7 @@ class _CardScreenState extends State<CardScreen> {
                                   ),
                                 ),
                                 Positioned(
-                                  left: 160,
+                                  left: 150,
                                   top: 110,
                                   child: Container(
                                     width: 192,

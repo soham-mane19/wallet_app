@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_app/paymentStatus.dart';
 
@@ -83,7 +83,7 @@ class Paybills extends StatelessWidget {
                   ),
                   Container(
                     height: 1,
-                    width: 150,
+                    width: 149,
                     color: const Color.fromRGBO(230, 221, 255, 1),
                   ),
                 ],

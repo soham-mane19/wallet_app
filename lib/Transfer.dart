@@ -90,7 +90,7 @@ class _TransferState extends State<Transfer> {
                     ),
                     Container(
                       height: 1,
-                      width: 150,
+                      width: 149,
                       color: const Color.fromRGBO(230, 221, 255, 1),
                     ),
                   ],
