@@ -12,8 +12,14 @@ import 'package:wallet_app/paybill.dart';
 import 'package:wallet_app/setting.dart';
 import 'package:wallet_app/spalsh_Screen.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:wallet_app/firebase_options.dart';
 
-void main() {
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
   runApp(const MainApp());
 }
 

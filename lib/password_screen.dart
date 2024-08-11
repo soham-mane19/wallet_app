@@ -228,7 +228,8 @@ class _PasswordScreenState extends State<PasswordScreen> {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        return StatefulBuilder(builder: (BuildContext context, setState) {
+        return StatefulBuilder(
+          builder: (BuildContext context, setState) {
           return Padding(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -286,7 +287,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                     ),
                     mobile
                         ? IntlPhoneField(
-                          controller: phonecontroller,
+                            controller: phonecontroller,
                             disableLengthCheck: true,
                             decoration: InputDecoration(
                               hintText: '7X-XXXXXXX',
@@ -332,12 +333,16 @@ class _PasswordScreenState extends State<PasswordScreen> {
                               minimumSize:
                                   MaterialStatePropertyAll(Size(328, 45))),
                           onPressed: () {
-                            Provider.of<Otp>(context,listen: false).getinfo(emailcontroller.text,phonecontroller.text,mobile);
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return const Otp1();
-                              },
-                            ));
+                            // Provider.of<Otp>(context, listen: false).getinfo(
+                            //     emailcontroller.text,
+                            //     phonecontroller.text,
+                            //     mobile);
+                            // Navigator.of(context).push(MaterialPageRoute(
+                            //   builder: (context) {
+                            //     return const Otp1();
+                            //   },
+                            // ));
+                            verify(),
                           },
                           child: Text(
                             "Send reset link",
@@ -376,5 +381,9 @@ class _PasswordScreenState extends State<PasswordScreen> {
         });
       },
     );
+  }
+  void verify(){
+
+    
   }
 }
