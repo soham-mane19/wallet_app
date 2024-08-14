@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 import 'package:wallet_app/Homescreen.dart';
 import 'package:wallet_app/login.dart';
+import 'package:wallet_app/otpprovider.dart';
 
 
 
@@ -18,7 +20,9 @@ class Check extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.hasData) {
-            return const  HomeScreen(); 
+            final user  = snapshot.data!;
+  Provider.of<Otp>(context).setUser(user);
+            return  const  HomeScreen(); 
           } else {
             return Login(); 
           }

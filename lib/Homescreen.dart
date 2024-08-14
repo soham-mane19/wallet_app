@@ -1,17 +1,23 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+import 'package:wallet_app/otpprovider.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  GoogleSignIn googleSignIn = GoogleSignIn();
+  FirebaseAuth auth = FirebaseAuth.instance;
   int index = 0;
 
   List<Map<String, String>> nameList = [
@@ -37,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    User user = Provider.of<Otp>(context).user!;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -55,7 +62,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Row(
                       children: [
-                        Image.asset("assets/dolly.png"),
+                        CircleAvatar(
+                          minRadius: 20,
+                          backgroundImage: NetworkImage(user.photoURL!),
+                        ),
                         const SizedBox(
                           width: 10,
                         ),
@@ -66,13 +76,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: GoogleFonts.sora(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: const Color.fromRGBO(255, 255, 255, 1))),
+                                  color:
+                                      const Color.fromRGBO(255, 255, 255, 1))),
                           TextSpan(
-                              text: 'DollychaiWala',
+                              text: '${user.displayName}',
                               style: GoogleFonts.sora(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: const Color.fromRGBO(255, 255, 255, 1))),
+                                  color:
+                                      const Color.fromRGBO(255, 255, 255, 1))),
                         ])),
                         const Spacer(),
                         IconButton(
@@ -118,15 +130,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: GoogleFonts.sora(
                                     fontSize: 36,
                                     fontWeight: FontWeight.w600,
-                                    color:
-                                        const Color.fromRGBO(255, 255, 255, 1))),
+                                    color: const Color.fromRGBO(
+                                        255, 255, 255, 1))),
                             TextSpan(
                                 text: '.34',
                                 style: GoogleFonts.sora(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w400,
-                                    color:
-                                        const Color.fromRGBO(255, 255, 255, 1))),
+                                    color: const Color.fromRGBO(
+                                        255, 255, 255, 1))),
                           ])),
                           const SizedBox(
                             height: 20,
@@ -160,8 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 24,
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        color:
-                                            const Color.fromRGBO(111, 69, 233, 1),
+                                        color: const Color.fromRGBO(
+                                            111, 69, 233, 1),
                                         width: 1)),
                               ),
                               const SizedBox(
@@ -193,8 +205,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 24,
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        color:
-                                            const Color.fromRGBO(111, 69, 233, 1),
+                                        color: const Color.fromRGBO(
+                                            111, 69, 233, 1),
                                         width: 1)),
                               ),
                               const SizedBox(
@@ -325,7 +337,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: GoogleFonts.sora(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
-                                  color: const Color.fromRGBO(120, 131, 141, 1))),
+                                  color:
+                                      const Color.fromRGBO(120, 131, 141, 1))),
                         ],
                       ),
                       const Spacer(),
@@ -378,7 +391,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: GoogleFonts.sora(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
-                                  color: const Color.fromRGBO(120, 131, 141, 1))),
+                                  color:
+                                      const Color.fromRGBO(120, 131, 141, 1))),
                         ],
                       ),
                       const Spacer(),
@@ -431,7 +445,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: GoogleFonts.sora(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
-                                  color: const Color.fromRGBO(120, 131, 141, 1))),
+                                  color:
+                                      const Color.fromRGBO(120, 131, 141, 1))),
                         ],
                       ),
                       const Spacer(),
@@ -466,18 +481,19 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-     
-        bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         onTap: (value) {
           setState(() {
             index = value;
           });
-          index==1?Navigator.of(context).pushNamed('/history'):index==2?Navigator.of(context).pushNamed('/Card'):Navigator.of(context).pushNamed('/More');
-          
+          index == 1
+              ? Navigator.of(context).pushNamed('/history')
+              : index == 2
+                  ? Navigator.of(context).pushNamed('/Card')
+                  : Navigator.of(context).pushNamed('/More');
         },
         currentIndex: index,
-        selectedItemColor:const  Color.fromRGBO(11, 69, 233, 1),
-       
+        selectedItemColor: const Color.fromRGBO(11, 69, 233, 1),
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
         items: [
@@ -500,14 +516,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
-  
-    
   }
+
   Widget buildNavItem(IconData icon, int itemIndex) {
     return Container(
-      padding:const  EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.only(top: 8),
       decoration: itemIndex == index
-          ?const  BoxDecoration(
+          ? const BoxDecoration(
               border: Border(
                 top: BorderSide(
                   color: Color.fromRGBO(11, 69, 233, 1),
