@@ -275,11 +275,17 @@ class Setting extends StatelessWidget {
               height: 2,
               color: const Color.fromRGBO(237, 239, 246, 1),
             ),
-            ElevatedButton(
-                onPressed: () {
-                  signout(context);
-                },
-                child: const Text("log out"))
+            const SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: ElevatedButton(
+                style:const  ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.blue)),
+                  onPressed: () {
+                    signout(context);
+                  },
+                  child: const Text("log out",style: TextStyle(color: Colors.black),)),
+            )
           ],
         ),
       ),

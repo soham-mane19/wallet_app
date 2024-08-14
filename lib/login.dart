@@ -172,7 +172,7 @@ final   GoogleSignIn googleSignIn = GoogleSignIn();
                   children: [
                     GestureDetector(
                       onTap: () {
-                         signin(context);
+                         signinGoogle(context);
                       },
                       child: Container(
                         height: 45,
@@ -212,7 +212,7 @@ final   GoogleSignIn googleSignIn = GoogleSignIn();
          );
   }
 
-  void signin(BuildContext context)async{
+  void signinGoogle(BuildContext context)async{
     
       try {
       final GoogleSignInAccount? userCredential = await googleSignIn.signIn();
