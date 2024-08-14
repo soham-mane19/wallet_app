@@ -16,7 +16,7 @@ class _SpalshScreenState extends State<SpalshScreen> {
   super.initState();
 
   Timer( const Duration(seconds: 3), () {
-  Navigator.of(context).pushNamed('/login');
+  Navigator.of(context).pushNamed('/check');
   }
    );
    }

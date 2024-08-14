@@ -228,26 +228,38 @@ class _OtpState extends State<Otp1> {
       const SizedBox(
         height: 15,
       ),
-      Center(
-        child: RichText(
-          text: TextSpan(children: [
-            TextSpan(
-                text: 'Resend code ',
-                style: GoogleFonts.sora(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: timersecond == 0
-                        ? const Color.fromRGBO(29, 98, 202, 1)
-                        : const Color.fromRGBO(120, 131, 141, 1))),
-            TextSpan(
-                text: ' 00:${timersecond.toString().padLeft(2, '0')}',
-                style: GoogleFonts.sora(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: const Color.fromRGBO(0, 0, 0, 1))),
-          ]),
-        ),
-      ),
+      Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+      timersecond==0?
+      TextButton(onPressed: (){
+
+     resendOtp();
+      }, child:  Text( 'Resend code ',
+                    style: GoogleFonts.sora(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color:  const Color.fromRGBO(29, 98, 202, 1)
+                    )
+      )
+):
+                    Text( 'Resend code ',
+                    style: GoogleFonts.sora(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: const Color.fromRGBO(120, 131, 141, 1))),
+            Text(' 00:${timersecond.toString().padLeft(2, '0')}',
+                    style: GoogleFonts.sora(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: const Color.fromRGBO(0, 0, 0, 1)
+                  
+            )
+                        ),
+              ]),
+            
+          
+     
       const SizedBox(
         height: 20,
       ),
@@ -261,7 +273,7 @@ class _OtpState extends State<Otp1> {
                     borderRadius: BorderRadius.circular(10))),
                 minimumSize: const MaterialStatePropertyAll(Size(250, 45))),
             onPressed: () {
-             verifyOtp();
+           verifyOtp();
             },
             child: Text(
               "Done",
@@ -271,35 +283,68 @@ class _OtpState extends State<Otp1> {
                   color: const Color.fromRGBO(255, 255, 255, 1)),
             )),
       ),
-    ])));
+   ],
+      ),
+        )
+        );
+  
+    
+   
   }
 
-  void verifyOtp()async{
-
-    PhoneAuthCredential authCredential = PhoneAuthProvider.credential(verificationId: Provider.of<Otp>(context,listen: false).verificationID!,
-     smsCode:optCon.text
-        
-        
+  void verifyOtp() async {
+    PhoneAuthCredential authCredential = PhoneAuthProvider.credential(
+        verificationId:
+            Provider.of<Otp>(context, listen: false).verificationID!,
+        smsCode: optCon.text);
+    try {
+      await auth.signInWithCredential(authCredential);
+      Navigator.of(context).pushReplacementNamed('/home');
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Invaild Otp"),
+            content: const Text("Enter a Valid Otp"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Ok"))
+            ],
+          );
+        },
       );
-      try{
-        await auth.signInWithCredential(authCredential);
-   Navigator.of(context).pushReplacementNamed('/home');
-      }catch(e){
-    showDialog(
-      
-      context: context, 
-      builder: (context) {
-         return AlertDialog(
-          title:const  Text("Invaild Otp"),
-          content: const Text("Enter a Valid Otp"),
-          actions: [
-             TextButton(onPressed: (){
-              Navigator.of(context).pop();
-             }, child:  const Text("Ok")
-             )
-          ],
-         );
-      },);
-      }
+    }
+  }
+  resendOtp(){
+  setState(() {
+    timersecond = 30;
+  });
+  startTimer();
+ verifyNumber();
+   
+
+  }
+
+  void verifyNumber(){
+    auth.verifyPhoneNumber(
+      phoneNumber:'+91 ${Provider.of<Otp>(context,listen: false).number}',
+      verificationCompleted: (phoneAuthCredential) {
+        
+      },
+       verificationFailed:(error) {
+         print(error);
+       }, 
+       codeSent: (verificationId, forceResendingToken) {
+
+       },
+        codeAutoRetrievalTimeout:(verificationId) {
+          
+        },
+        );
+
   }
 }

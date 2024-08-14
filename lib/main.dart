@@ -3,6 +3,7 @@ import 'package:wallet_app/Homescreen.dart';
 import 'package:wallet_app/Transfer.dart';
 import 'package:wallet_app/about.dart';
 import 'package:wallet_app/card.dart';
+import 'package:wallet_app/check.dart';
 import 'package:wallet_app/history.dart';
 import 'package:wallet_app/login.dart';
 import 'package:wallet_app/more.dart';
@@ -36,17 +37,18 @@ class MainApp extends StatelessWidget {
        debugShowCheckedModeBanner: false,
        routes: {
         '/login': (context) {
-          return  const Login();
+          return Login();
         },
         '/password':(context) => const PasswordScreen(),
         '/home':(context) => const HomeScreen(),
         '/history':(context) => const History(),
         '/Card':(context) => const CardScreen(),
         '/More':(context) => const More(),
-            '/setting':(context) => const Setting(),
+            '/setting':(context) =>  Setting(),
             '/about':(context) => const About(),
             '/payBills':(context) => const Paybills(),
             '/transfer':(context) => const Transfer(),
+             '/check':(context)=> const Check(),
              },
              home: const SpalshScreen(),
       ),

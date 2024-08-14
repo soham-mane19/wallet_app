@@ -1,10 +1,29 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+class Login extends StatefulWidget {
+ 
+   Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+
+@override
+  void initState(){
+   super.initState();
+  
+  }
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+final   GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
   Widget build(BuildContext context) {
@@ -145,20 +164,25 @@ class Login extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 color: const Color.fromRGBO(120, 131, 141, 1)))
                 ),
-                 SizedBox(
+              const    SizedBox(
                   height: 20,
                  ),
                  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      height: 45,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color:const  Color.fromRGBO(237, 239, 246, 1),
+                    GestureDetector(
+                      onTap: () {
+                         signin(context);
+                      },
+                      child: Container(
+                        height: 45,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color:const  Color.fromRGBO(237, 239, 246, 1),
+                        ),
+                        child: Image.asset("assets/Google.png"),
                       ),
-                      child: Image.asset("assets/Google.png"),
                     ),
                     Container(
                       height: 45,
@@ -187,4 +211,29 @@ class Login extends StatelessWidget {
         
          );
   }
+
+  void signin(BuildContext context)async{
+    
+      try {
+      final GoogleSignInAccount? userCredential = await googleSignIn.signIn();
+      final GoogleSignInAuthentication? googleAuth = await userCredential?.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      await auth.signInWithCredential(credential).then((value) {
+        Navigator.of(context).pushReplacementNamed('/home');   
+        },);
+          
+     
+    
+    } catch (e) {
+      print('Sign-in failed: $e');
+    }
+
+
+  }
+ 
 }

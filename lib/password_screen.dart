@@ -201,12 +201,12 @@ bool mobile = false;
                   Center(
                     child: ElevatedButton(
                         style: const ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
+                            backgroundColor: WidgetStatePropertyAll(
                                 Color.fromRGBO(87, 50, 191, 1)),
                             minimumSize:
-                                MaterialStatePropertyAll(Size(328, 45))),
+                                WidgetStatePropertyAll(Size(328, 45))),
                         onPressed: () {
-                          Navigator.of(context).pushNamed('/home');
+                          verifypasswod();
                         },
                         child: Text(
                           "Login",
@@ -337,16 +337,8 @@ bool mobile = false;
                               minimumSize:
                                   MaterialStatePropertyAll(Size(328, 45))),
                           onPressed: () {
-                            // Provider.of<Otp>(context, listen: false).getinfo(
-                            //     emailcontroller.text,
-                            //     phonecontroller.text,
-                            //     mobile);
-                            // Navigator.of(context).push(MaterialPageRoute(
-                            //   builder: (context) {
-                            //     return const Otp1();
-                            //   },
-                            // ));
-                            verify();
+                          
+                           mobile? verifyNumber():verifyEmail();
                           },
                           child: Text(
                             "Send reset link",
@@ -386,7 +378,7 @@ bool mobile = false;
       },
     );
   }
-  void verify(){
+  void verifyNumber(){
        auth.verifyPhoneNumber(
         phoneNumber:  '+91${phonecontroller.text}',
         verificationCompleted:(PhoneAuthCredential credential){
@@ -414,5 +406,28 @@ bool mobile = false;
            }
            );
 
+  }
+  void verifyEmail()async{
+  
+  auth.sendPasswordResetEmail(email: emailcontroller.text);
+
+
+  ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Password reset link sent to ${emailcontroller.text}'),
+        backgroundColor: Colors.green,
+      ),
+    );
+
+    // Optionally, navigate to a different screen or reset the bottom sheet
+    Navigator.of(context).pop();
+    Navigator.of(context).pushReplacementNamed('/password');
+
+  
+
+  }
+  void verifypasswod(){
+
+    
   }
 }
